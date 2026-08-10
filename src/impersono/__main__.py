@@ -5,18 +5,18 @@ import platform
 import sys
 from collections.abc import Sequence
 
-from impersonic import __app_name__, __version__
-from impersonic.core.hardware import detect_hardware, format_hardware_report
-from impersonic.core.hardware.compatibility import assess_vibevoice_1_5b
-from impersonic.core.hardware.compatibility_formatting import (
+from impersono import __app_name__, __version__
+from impersono.core.hardware import detect_hardware, format_hardware_report
+from impersono.core.hardware.compatibility import assess_vibevoice_1_5b
+from impersono.core.hardware.compatibility_formatting import (
     format_model_compatibility,
 )
 
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="python -m impersonic",
-        description="Impersonic development command-line interface.",
+        prog="python -m impersono",
+        description="Impersono development command-line interface.",
     )
 
     group = parser.add_mutually_exclusive_group()

@@ -1,4 +1,4 @@
-"""Hardware discovery services for Impersonic."""
+"""Hardware discovery services for Impersono."""
 
 from .capabilities import (
     GpuAccelerationStatus,

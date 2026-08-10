@@ -31,7 +31,7 @@ def format_model_compatibility(assessment: ModelCompatibility) -> str:
         "",
         (
             "Note: model file size is not a RAM or VRAM requirement. Runtime "
-            "memory usage must be measured separately before Impersonic makes "
+            "memory usage must be measured separately before Impersono makes "
             "a model-fit recommendation."
         ),
     ]

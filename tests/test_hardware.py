@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from impersonic.core.hardware import (
+from impersono.core.hardware import (
     GpuAccelerationStatus,
     GpuInfo,
     HardwareInfo,

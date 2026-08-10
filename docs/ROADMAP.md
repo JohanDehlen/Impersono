@@ -1,8 +1,8 @@
-# Impersonic Roadmap
+# Impersono Roadmap
 
 ## Product
 
-**Impersonic**
+**Impersono**
 
 **Professional Local AI Voice Creation**
 
@@ -14,7 +14,7 @@ Core privacy message:
 
 ## Development Approach
 
-Impersonic will be developed in small, testable milestones.
+Impersono will be developed in small, testable milestones.
 
 A milestone should not be considered complete until its main functionality is:
 
@@ -51,7 +51,7 @@ Establish a clean, professional foundation before introducing AI inference code.
 - [x] Create `CHANGELOG.md`
 - [x] Create initial Python package
 - [x] Create application entry point
-- [x] Confirm `python -m impersonic` runs
+- [x] Confirm `python -m impersono` runs
 - [x] Add basic automated test
 - [x] Review project structure
 - [x] Make first milestone Git commit
@@ -73,7 +73,7 @@ The project has a clean repository, documentation, a runnable Python package, an
 
 ## Goal
 
-Allow Impersonic to understand the computer it is running on before attempting model installation or inference.
+Allow Impersono to understand the computer it is running on before attempting model installation or inference.
 
 ## Completed Scope
 
@@ -91,8 +91,8 @@ Allow Impersonic to understand the computer it is running on before attempting m
 - [x] Separate raw hardware data from presentation and compatibility assessment
 - [x] Add automated tests
 - [x] Add VibeVoice 1.5B compatibility guidance without inventing RAM/VRAM thresholds
-- [x] Add `python -m impersonic --hardware`
-- [x] Add `python -m impersonic --compatibility`
+- [x] Add `python -m impersono --hardware`
+- [x] Add `python -m impersono --compatibility`
 - [x] Validate hardware discovery on the primary Windows development machine
 
 ## Completion Notes
@@ -144,7 +144,7 @@ The user should not need to understand CUDA, ROCm, DirectML, or model internals.
 
 ## Goal
 
-Create the abstraction that allows Impersonic to support multiple AI voice engines.
+Create the abstraction that allows Impersono to support multiple AI voice engines.
 
 ## Planned Scope
 
@@ -164,12 +164,12 @@ Define a common engine interface for operations such as:
 Possible future engines:
 
 ```text
-Impersonic Voice Engine Interface
+Impersono Voice Engine Interface
         |
         +-- VibeVoice Backend
         +-- Qwen TTS Backend
         +-- Other Local Engine
-        `-- Future Impersonic Engine
+        `-- Future Impersono Engine
 ```
 
 ## Completion Standard
@@ -182,13 +182,13 @@ The application architecture must be able to add or replace engines without requ
 
 ## Goal
 
-Generate speech from Impersonic without using the VibeVoice Gradio interface.
+Generate speech from Impersono without using the VibeVoice Gradio interface.
 
 ## Planned Scope
 
 - Study the known-good VibeVoice inference path
 - Identify required model components
-- Create an Impersonic backend adapter
+- Create an Impersono backend adapter
 - Load VibeVoice 1.5B
 - Load a known reference voice
 - Accept text input
@@ -200,7 +200,7 @@ Generate speech from Impersonic without using the VibeVoice Gradio interface.
 
 ## Initial Quality Requirement
 
-The Impersonic inference result should be comparable in quality to the known-good VibeVoice reference generation.
+The Impersono inference result should be comparable in quality to the known-good VibeVoice reference generation.
 
 The purpose is not merely to produce audio.
 
@@ -248,14 +248,14 @@ Benchmark material must use voices for which appropriate permission exists.
 
 ## Goal
 
-Create the first real Impersonic desktop interface.
+Create the first real Impersono desktop interface.
 
 ## Initial UI
 
 The first version should be deliberately simple.
 
 ```text
-Impersonic
+Impersono
 
 Voice:
 [ Select Voice ]
@@ -275,7 +275,7 @@ Output:
 ## Planned Scope
 
 - Application window
-- Impersonic branding
+- Impersono branding
 - Text input
 - Voice selector
 - Generate button
@@ -293,7 +293,7 @@ No advanced model controls should dominate the primary workflow.
 
 ## Goal
 
-Allow a user to create a reusable Impersonic voice from a reference recording.
+Allow a user to create a reusable Impersono voice from a reference recording.
 
 ## Planned Workflow
 
@@ -398,7 +398,7 @@ Engine-specific controls should live behind advanced settings rather than pollut
 
 ## Goal
 
-Allow users to save complete Impersonic work sessions.
+Allow users to save complete Impersono work sessions.
 
 ## Possible Project Data
 
@@ -425,7 +425,7 @@ Allow users to save complete Impersonic work sessions.
 
 ## Goal
 
-Make Impersonic's local-first privacy promise visible in the product.
+Make Impersono's local-first privacy promise visible in the product.
 
 ## Planned UI
 
@@ -577,7 +577,7 @@ Potential uses:
 - performance transfer
 - correction of existing narration
 
-This feature should be implemented only if quality reaches the Impersonic product standard.
+This feature should be implemented only if quality reaches the Impersono product standard.
 
 ---
 
@@ -585,7 +585,7 @@ This feature should be implemented only if quality reaches the Impersonic produc
 
 ## Goal
 
-Allow Scriptolator to use Impersonic as an optional narration engine while keeping both projects completely separate.
+Allow Scriptolator to use Impersono as an optional narration engine while keeping both projects completely separate.
 
 Possible future integration:
 
@@ -594,15 +594,15 @@ Scriptolator
     |
     +-- Microsoft Edge
     +-- Microsoft Azure
-    +-- Impersonic Local
-    `-- Impersonic Cloud
+    +-- Impersono Local
+    `-- Impersono Cloud
 ```
 
 Integration should use a documented interface rather than sharing internal code between the projects.
 
 ---
 
-# Milestone 0.19 — Optional Impersonic Cloud
+# Milestone 0.19 — Optional Impersono Cloud
 
 ## Goal
 
@@ -638,7 +638,7 @@ Choose:
 
 [ Use Smaller Local Model ]
 
-[ Generate in Impersonic Cloud ]
+[ Generate in Impersono Cloud ]
 ```
 
 ---
@@ -647,7 +647,7 @@ Choose:
 
 ## Goal
 
-Allow users to use Impersonic without installing the desktop application.
+Allow users to use Impersono without installing the desktop application.
 
 ## Planned Workflow
 
@@ -715,7 +715,7 @@ Pricing should remain understandable to users.
 
 ## Planned Scope
 
-- impersonic.com
+- impersono.com
 - product pages
 - documentation
 - account portal
@@ -786,7 +786,7 @@ Create a polished Windows installation experience.
 
 ## Goal
 
-Test Impersonic outside the development environment.
+Test Impersono outside the development environment.
 
 ## Beta Requirements
 
@@ -850,7 +850,7 @@ Future development may include:
 - marketplace
 - user-created voice packs
 - approved commercial voice marketplace
-- Impersonic-native models
+- Impersono-native models
 
 These ideas are not commitments.
 
@@ -860,6 +860,6 @@ Quality and product focus take priority over feature count.
 
 # Guiding Principle
 
-Every milestone should move Impersonic toward one goal:
+Every milestone should move Impersono toward one goal:
 
 > Build the best professional local-first AI voice creation platform we can.

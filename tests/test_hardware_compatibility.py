@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from impersonic.core.hardware.compatibility import (
+from impersono.core.hardware.compatibility import (
     CompatibilityStatus,
     VIBEVOICE_1_5B_MODEL_STORAGE_GB,
     assess_vibevoice_1_5b,
 )
-from impersonic.core.hardware.compatibility_formatting import (
+from impersono.core.hardware.compatibility_formatting import (
     format_model_compatibility,
 )
-from impersonic.core.hardware.models import GpuInfo, HardwareInfo
+from impersono.core.hardware.models import GpuInfo, HardwareInfo
 
 
 def _info(

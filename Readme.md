@@ -1,14 +1,14 @@
-# Impersonic
+# Impersono
 
 **Professional Local AI Voice Creation**
 
 > Your voices stay on your computer.
 
-Impersonic is a local-first AI voice creation application designed for professional voice cloning, text-to-speech, and future voice production workflows.
+Impersono is a local-first AI voice creation application designed for professional voice cloning, text-to-speech, and future voice production workflows.
 
 The desktop application is intended to perform voice processing locally whenever the user's hardware allows it. Optional cloud processing may be offered later for users who need additional computing power or prefer to work through a web browser.
 
-Impersonic is a completely separate project and product with its own architecture, user interface, branding, and development roadmap.
+Impersono is a completely separate project and product with its own architecture, user interface, branding, and development roadmap.
 
 ---
 
@@ -20,13 +20,13 @@ Current milestone:
 
 **Milestone 0.3 — Voice Engine Interface**
 
-Impersonic is not yet ready for production use.
+Impersono is not yet ready for production use.
 
 ---
 
 ## Product Vision
 
-Impersonic aims to become a professional AI voice creation platform that combines:
+Impersono aims to become a professional AI voice creation platform that combines:
 
 - High-quality voice cloning
 - Natural text-to-speech
@@ -41,7 +41,7 @@ Impersonic aims to become a professional AI voice creation platform that combine
 
 The initial quality benchmark is VibeVoice-class speech generation.
 
-Impersonic will not simply reproduce the VibeVoice demonstration interface. VibeVoice serves as an early technical reference and quality benchmark while Impersonic develops its own product architecture and user experience.
+Impersono will not simply reproduce the VibeVoice demonstration interface. VibeVoice serves as an early technical reference and quality benchmark while Impersono develops its own product architecture and user experience.
 
 ---
 
@@ -53,7 +53,7 @@ When using local generation, reference voices and generated audio remain on the 
 
 ### Cloud Optional
 
-Users without suitable local hardware should eventually be able to choose secure cloud generation rather than being excluded from using Impersonic.
+Users without suitable local hardware should eventually be able to choose secure cloud generation rather than being excluded from using Impersono.
 
 ### Privacy by Design
 
@@ -63,11 +63,11 @@ Voice data must never be uploaded without an explicit user action that clearly i
 
 The application architecture should not permanently depend on a single AI model.
 
-The Impersonic inference layer should eventually support multiple voice engines through a common interface.
+The Impersono inference layer should eventually support multiple voice engines through a common interface.
 
 ### Professional Quality
 
-Impersonic is intended to become commercial-quality software rather than a thin graphical wrapper around an AI research project.
+Impersono is intended to become commercial-quality software rather than a thin graphical wrapper around an AI research project.
 
 ---
 
@@ -113,12 +113,12 @@ Local generation available?
 ## Planned Architecture
 
 ```text
-Impersonic
+Impersono
 |
 +-- Desktop Application
 |       |
 |       v
-+-- Impersonic Core
++-- Impersono Core
 |   +-- Inference
 |   +-- Audio
 |   +-- Hardware Detection
@@ -130,7 +130,7 @@ Impersonic
 |   `-- Future voice engines
 |
 `-- Optional Future Services
-    +-- Impersonic Cloud
+    +-- Impersono Cloud
     +-- Web Application
     `-- API
 ```
@@ -229,13 +229,13 @@ Initial development environment:
 Project directory:
 
 ```text
-C:\Projects\Impersonic
+C:\Projects\Impersono
 ```
 
 Run the package:
 
 ```powershell
-python -m impersonic
+python -m impersono
 ```
 
 Run tests:
@@ -249,14 +249,14 @@ python -m pytest -q
 ## Repository Structure
 
 ```text
-Impersonic/
+Impersono/
 +-- assets/
 +-- docs/
 |   +-- DESIGN_PRINCIPLES.md
 |   `-- ROADMAP.md
 +-- output/
 +-- src/
-|   `-- impersonic/
+|   `-- impersono/
 |       +-- core/
 |       |   +-- audio/
 |       |   +-- hardware/
@@ -277,7 +277,7 @@ Impersonic/
 
 ## Privacy Positioning
 
-The core privacy message of Impersonic is:
+The core privacy message of Impersono is:
 
 > **Your voices stay on your computer.**
 
@@ -299,8 +299,8 @@ Selected voice data and generation requests are intentionally sent for remote pr
 
 ## Name and Brand
 
-**Impersonic**
+**Impersono**
 
 **Professional Local AI Voice Creation**
 
-Impersonic is being developed as an independent software product and brand.
+Impersono is being developed as an independent software product and brand.

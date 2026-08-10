@@ -1,8 +1,8 @@
-# AGENTS.md — Impersonic Development Guide
+# AGENTS.md — Impersono Development Guide
 
 ## Purpose
 
-This file contains durable project-specific instructions for AI-assisted development of Impersonic.
+This file contains durable project-specific instructions for AI-assisted development of Impersono.
 
 It supplements the user's general ChatGPT Workflow Principles. It is not a roadmap, changelog, or conversation history.
 
@@ -10,7 +10,7 @@ It supplements the user's general ChatGPT Workflow Principles. It is not a roadm
 
 ## Product Identity
 
-**Product:** Impersonic
+**Product:** Impersono
 
 **Positioning:** Professional Local AI Voice Creation
 
@@ -18,7 +18,7 @@ It supplements the user's general ChatGPT Workflow Principles. It is not a roadm
 
 > Your voices stay on your computer.
 
-Impersonic is intended to become a commercial-quality, local-first AI voice creation platform.
+Impersono is intended to become a commercial-quality, local-first AI voice creation platform.
 
 It is not a renamed VibeVoice demo and must maintain its own architecture, UI, project model, voice management, hardware abstraction, branding, and product identity.
 
@@ -44,7 +44,7 @@ Primary development environment:
 - Visual Studio Code
 - Python 3.12
 - Project virtual environment: `.venv`
-- Git repository root: `C:\Projects\Impersonic`
+- Git repository root: `C:\Projects\Impersono`
 
 Current supported Python range is defined in `pyproject.toml`.
 
@@ -66,10 +66,10 @@ Install the project in editable mode:
 python -m pip install -e .
 ```
 
-Run Impersonic:
+Run Impersono:
 
 ```powershell
-python -m impersonic
+python -m impersono
 ```
 
 Run tests:
@@ -89,14 +89,14 @@ git status
 ## Repository Structure
 
 ```text
-Impersonic/
+Impersono/
 +-- assets/
 +-- docs/
 |   +-- DESIGN_PRINCIPLES.md
 |   `-- ROADMAP.md
 +-- output/
 +-- src/
-|   `-- impersonic/
+|   `-- impersono/
 |       +-- core/
 |       |   +-- audio/
 |       |   +-- hardware/
@@ -130,7 +130,7 @@ Desktop UI
 Application Services
     |
     v
-Impersonic Core
+Impersono Core
     |
     v
 Voice Engine Interface
@@ -147,14 +147,14 @@ It must not define the entire application architecture.
 
 Future engines may include other local TTS/voice-cloning systems.
 
-The UI should depend on Impersonic abstractions rather than directly on a specific model implementation.
+The UI should depend on Impersono abstractions rather than directly on a specific model implementation.
 
 ### Hardware discovery is a core service
 
 Hardware detection belongs under:
 
 ```text
-src/impersonic/core/hardware/
+src/impersono/core/hardware/
 ```
 
 Raw detection data and user-facing presentation/recommendations should remain separable.
@@ -165,7 +165,7 @@ Do not build hardware detection around NVIDIA-only assumptions.
 
 ## VibeVoice Relationship
 
-The known-good VibeVoice installation is separate from Impersonic.
+The known-good VibeVoice installation is separate from Impersono.
 
 Primary working VibeVoice installation:
 
@@ -175,7 +175,7 @@ C:\AI\VibeVoice
 
 A sealed long-term VibeVoice Gold Master also exists outside this repository.
 
-**Never modify the sealed Gold Master as part of Impersonic development.**
+**Never modify the sealed Gold Master as part of Impersono development.**
 
 Do not casually modify the known-good VibeVoice installation either.
 
@@ -184,7 +184,7 @@ When VibeVoice integration begins:
 - inspect the known-good implementation first
 - identify the minimum required inference path
 - preserve output quality
-- isolate VibeVoice-specific behavior behind an Impersonic adapter/interface
+- isolate VibeVoice-specific behavior behind an Impersono adapter/interface
 - review third-party licenses and redistribution implications before commercial packaging
 
 Do not depend on the VibeVoice Gradio interface.
@@ -267,7 +267,7 @@ Do not upgrade dependencies simply because newer versions exist.
 
 ## Commercial and Third-Party Code Rules
 
-Impersonic is intended for possible commercial distribution.
+Impersono is intended for possible commercial distribution.
 
 Before incorporating substantial third-party code, models, or research implementations, consider:
 
@@ -283,7 +283,7 @@ Before incorporating substantial third-party code, models, or research implement
 
 Research code does not automatically become production code.
 
-Prefer adapters/interfaces over copying large third-party implementations into Impersonic where practical.
+Prefer adapters/interfaces over copying large third-party implementations into Impersono where practical.
 
 ---
 
@@ -398,13 +398,13 @@ Temporary debugging information should not be placed in `AGENTS.md`.
 The current package identity is:
 
 ```text
-Impersonic 0.1.0-dev
+Impersono 0.1.0-dev
 ```
 
 Known-good baseline behavior:
 
 ```powershell
-python -m impersonic
+python -m impersono
 ```
 
 prints the application identity and environment information.
@@ -420,8 +420,8 @@ passes the package, hardware, compatibility, and CLI tests.
 Hardware discovery commands:
 
 ```powershell
-python -m impersonic --hardware
-python -m impersonic --compatibility
+python -m impersono --hardware
+python -m impersono --compatibility
 ```
 
 Milestone 0.2 established the hardware discovery and compatibility layers without adding runtime dependencies.
@@ -432,4 +432,4 @@ The next milestone is **Milestone 0.3 — Voice Engine Interface**. Preserve the
 
 ## Guiding Rule
 
-When uncertain between a quick shortcut and a clean boundary, prefer the smallest design that preserves Impersonic's long-term architecture without adding premature complexity.
+When uncertain between a quick shortcut and a clean boundary, prefer the smallest design that preserves Impersono's long-term architecture without adding premature complexity.

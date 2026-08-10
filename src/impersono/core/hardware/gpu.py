@@ -102,7 +102,7 @@ def detect_gpus() -> tuple[GpuInfo, ...]:
 def detect_cuda_driver() -> bool:
     """Return whether an NVIDIA CUDA-capable driver tool is reachable.
 
-    This does not claim that Impersonic's future Python inference stack can use
+    This does not claim that Impersono's future Python inference stack can use
     CUDA; it only reports whether the NVIDIA driver utility is available.
     """
 
