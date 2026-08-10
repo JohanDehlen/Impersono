@@ -28,7 +28,7 @@ It is not a renamed VibeVoice demo and must maintain its own architecture, UI, p
 
 Current milestone:
 
-**Milestone 0.2 — Hardware Discovery**
+**Milestone 0.3 — Voice Engine Interface**
 
 The current codebase is intentionally small.
 
@@ -309,7 +309,7 @@ UNDERSTAND
 
 ChatGPT can inspect GitHub but should not assume it can directly write to the user's Windows filesystem.
 
-For meaningful multi-file changes, prefer a controlled PowerShell update script over repeated manual copy/paste.
+For meaningful multi-file changes, prefer a controlled local update script over repeated manual copy/paste. Prefer Python update scripts when file encoding or Unicode may matter on Windows.
 
 Do not require a Git push after every individual file change.
 
@@ -415,9 +415,18 @@ Current automated baseline:
 python -m pytest -q
 ```
 
-passes the package identity test.
+passes the package, hardware, compatibility, and CLI tests.
 
-This baseline should remain working while Milestone 0.2 is developed.
+Hardware discovery commands:
+
+```powershell
+python -m impersonic --hardware
+python -m impersonic --compatibility
+```
+
+Milestone 0.2 established the hardware discovery and compatibility layers without adding runtime dependencies.
+
+The next milestone is **Milestone 0.3 — Voice Engine Interface**. Preserve the working hardware-discovery baseline while introducing the engine abstraction.
 
 ---
 

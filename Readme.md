@@ -18,7 +18,7 @@ Impersonic is a completely separate project and product with its own architectur
 
 Current milestone:
 
-**Milestone 0.2 — Hardware Discovery**
+**Milestone 0.3 — Voice Engine Interface**
 
 Impersonic is not yet ready for production use.
 
