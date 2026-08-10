@@ -28,7 +28,7 @@ It is not a renamed VibeVoice demo and must maintain its own architecture, UI, p
 
 Current milestone:
 
-**Milestone 0.3 — Voice Engine Interface**
+**Milestone 0.4 — First VibeVoice-Compatible Inference Prototype**
 
 The current codebase is intentionally small.
 
@@ -426,7 +426,11 @@ python -m impersono --compatibility
 
 Milestone 0.2 established the hardware discovery and compatibility layers without adding runtime dependencies.
 
-The next milestone is **Milestone 0.3 — Voice Engine Interface**. Preserve the working hardware-discovery baseline while introducing the engine abstraction.
+Milestone 0.3 established the backend-independent voice engine contract, engine registry, common inference models and errors, progress/cancellation boundary, and standardized engine lifecycle status.
+
+The current automated baseline is **24 passing tests** on the primary Windows development machine.
+
+The next milestone is **Milestone 0.4 — First VibeVoice-Compatible Inference Prototype**. Preserve the engine boundary: inspect the known-good VibeVoice implementation first, isolate VibeVoice-specific behavior behind an Impersono engine implementation, and do not make the rest of the application depend directly on VibeVoice or its Gradio interface.
 
 ---
 

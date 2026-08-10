@@ -25,6 +25,34 @@ Impersono uses milestone-based development during the pre-release phase. Version
 - Confirmed that commits and pushes should occur at useful checkpoints rather than after every file modification.
 - Established explicit local testing and user approval before merging machine-dependent changes.
 
+### Milestone 0.3 — Voice Engine Interface
+
+#### Added
+
+- Added the engine-independent inference package under `src/impersono/core/inference/`.
+- Added a common `VoiceEngine` contract for identity, capabilities, status, model discovery, model loading/unloading, generation, progress reporting, and cancellation.
+- Added engine-independent generation request and result models.
+- Added common inference error types.
+- Added `EngineRegistry` for registering, retrieving, listing, and removing engines by stable engine ID.
+- Added standardized engine lifecycle states and status snapshots.
+- Added automated tests for the engine contract, registry, and lifecycle state.
+
+#### Design Decisions
+
+- Kept VibeVoice, PyTorch, ONNX, GUI, and other backend-specific objects out of the public engine interface.
+- Kept engine-specific generation controls generic until they justify stable Impersono-level abstractions.
+- Avoided adding a premature engine manager/service layer before a real backend demonstrates the need for one.
+- Preserved the ability to add future local or remote engines behind the same application-facing boundary.
+- Added no new runtime Python dependencies for this milestone.
+
+#### Validation
+
+The complete automated suite passes with **24 tests** on the primary Windows development machine.
+
+Milestone 0.3 establishes the boundary required for Milestone 0.4 to introduce the first VibeVoice-compatible inference implementation without coupling the rest of Impersono directly to VibeVoice.
+
+---
+
 ### Milestone 0.2 — Hardware Discovery
 
 #### Added
