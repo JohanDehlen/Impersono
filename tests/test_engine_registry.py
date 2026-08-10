@@ -11,6 +11,8 @@ from impersono.core.inference import (
     EngineModel,
     EngineNotFoundError,
     EngineRegistry,
+    EngineState,
+    EngineStatus,
     GenerationRequest,
     GenerationResult,
     VoiceEngine,
@@ -36,6 +38,10 @@ class RegistryTestEngine(VoiceEngine):
             supports_cancellation=False,
             supports_progress=False,
         )
+
+    @property
+    def status(self) -> EngineStatus:
+        return EngineStatus(state=EngineState.UNLOADED)
 
     def list_models(self) -> tuple[EngineModel, ...]:
         return ()

@@ -3,8 +3,20 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from enum import Enum
 from pathlib import Path
 from typing import Mapping
+
+
+class EngineState(str, Enum):
+    """High-level lifecycle state exposed by a voice engine."""
+
+    UNLOADED = "unloaded"
+    LOADING = "loading"
+    READY = "ready"
+    GENERATING = "generating"
+    CANCELLING = "cancelling"
+    ERROR = "error"
 
 
 @dataclass(frozen=True, slots=True)
@@ -35,6 +47,19 @@ class EngineModel:
     display_name: str
     is_available: bool
     is_loaded: bool = False
+
+
+@dataclass(frozen=True, slots=True)
+class EngineStatus:
+    """Current engine lifecycle snapshot.
+
+    ``loaded_model_id`` is intentionally independent of ``EngineModel`` so
+    callers can inspect current state without requiring a model-list refresh.
+    """
+
+    state: EngineState
+    loaded_model_id: str | None = None
+    message: str | None = None
 
 
 @dataclass(frozen=True, slots=True)

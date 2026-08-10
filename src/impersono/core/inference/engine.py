@@ -9,6 +9,7 @@ from .models import (
     EngineCapabilities,
     EngineIdentity,
     EngineModel,
+    EngineStatus,
     GenerationRequest,
     GenerationResult,
 )
@@ -33,6 +34,11 @@ class VoiceEngine(ABC):
     @abstractmethod
     def capabilities(self) -> EngineCapabilities:
         """Return features this engine implementation actually supports."""
+
+    @property
+    @abstractmethod
+    def status(self) -> EngineStatus:
+        """Return the engine's current lifecycle state."""
 
     @abstractmethod
     def list_models(self) -> tuple[EngineModel, ...]:

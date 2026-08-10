@@ -11,6 +11,8 @@ from .models import (
     EngineCapabilities,
     EngineIdentity,
     EngineModel,
+    EngineState,
+    EngineStatus,
     GenerationRequest,
     GenerationResult,
 )
@@ -29,6 +31,8 @@ __all__ = [
     "EngineNotFoundError",
     "EngineNotReadyError",
     "EngineRegistry",
+    "EngineState",
+    "EngineStatus",
     "GenerationCancelledError",
     "GenerationRequest",
     "GenerationResult",
