@@ -67,25 +67,48 @@ The project has a clean repository, documentation, a runnable Python package, an
 
 # Milestone 0.2 — Hardware Discovery
 
+## Status
+
+**Complete**
+
 ## Goal
 
 Allow Impersonic to understand the computer it is running on before attempting model installation or inference.
 
-## Planned Scope
+## Completed Scope
 
-- [ ] Detect operating system
-- [ ] Detect Python environment
-- [ ] Detect CPU
-- [ ] Detect system RAM
-- [ ] Detect available GPU devices
-- [ ] Detect GPU vendor
-- [ ] Detect VRAM where available
-- [ ] Detect CUDA availability
-- [ ] Design extensible acceleration capability reporting
-- [ ] Evaluate future AMD acceleration options without hard-coding the product to NVIDIA
-- [ ] Produce a user-friendly hardware summary
-- [ ] Separate raw hardware data from UI presentation
-- [ ] Add automated tests where practical
+- [x] Detect operating system
+- [x] Detect Python environment
+- [x] Detect CPU model and logical CPU count
+- [x] Detect system RAM
+- [x] Detect available GPU devices on Windows
+- [x] Detect GPU vendor
+- [x] Detect dedicated VRAM where Windows exposes it
+- [x] Detect NVIDIA driver/CUDA tooling availability conservatively
+- [x] Design extensible acceleration capability reporting
+- [x] Preserve future AMD and other acceleration options without hard-coding the product to NVIDIA
+- [x] Produce a user-friendly hardware summary
+- [x] Separate raw hardware data from presentation and compatibility assessment
+- [x] Add automated tests
+- [x] Add VibeVoice 1.5B compatibility guidance without inventing RAM/VRAM thresholds
+- [x] Add `python -m impersonic --hardware`
+- [x] Add `python -m impersonic --compatibility`
+- [x] Validate hardware discovery on the primary Windows development machine
+
+## Completion Notes
+
+Milestone 0.2 intentionally does not claim that every detected GPU is usable for AI inference.
+
+Raw hardware detection, generic capability assessment, and model-specific compatibility guidance remain separate layers.
+
+The current VibeVoice 1.5B compatibility profile treats:
+
+- the established CPU route as a known execution path
+- NVIDIA plus working driver tooling as a candidate requiring runtime verification
+- other detected GPUs as unconfirmed until the relevant runtime is actually proven
+- model file size as separate from runtime RAM/VRAM requirements
+
+Detailed model-fit thresholds should be based on measured runtime behavior rather than guessed values.
 
 ## Desired User Experience
 
