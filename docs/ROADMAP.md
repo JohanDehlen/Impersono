@@ -142,24 +142,42 @@ The user should not need to understand CUDA, ROCm, DirectML, or model internals.
 
 # Milestone 0.3 — Voice Engine Interface
 
+## Status
+
+**Complete**
+
 ## Goal
 
 Create the abstraction that allows Impersono to support multiple AI voice engines.
 
-## Planned Scope
+## Completed Scope
 
-Define a common engine interface for operations such as:
+- [x] Define stable engine identity metadata
+- [x] Define engine capability discovery
+- [x] Define engine-independent model metadata
+- [x] Define model loading and unloading operations
+- [x] Define engine-independent generation requests and results
+- [x] Support reference-voice conditioning through the common request boundary
+- [x] Define normalized progress callbacks
+- [x] Define cancellation through the common engine contract
+- [x] Define common inference error types
+- [x] Add an engine registry for discovery and selection by stable engine ID
+- [x] Define standardized engine lifecycle states
+- [x] Expose engine status, loaded-model identity, and optional status messages
+- [x] Keep framework-specific objects out of the public engine contract
+- [x] Add automated tests for the interface, registry, and lifecycle state
 
-- engine identification
-- model availability
-- model loading
-- voice conditioning
-- text generation
-- audio output
-- cancellation
-- progress reporting
-- error reporting
-- capability discovery
+## Completion Notes
+
+The interface is intentionally backend-independent. It does not expose PyTorch,
+VibeVoice, ONNX, subprocess, or GUI-specific objects.
+
+Engine-specific generation controls can remain in a generic options mapping until
+a control proves stable enough to become part of the Impersono-level abstraction.
+
+The lifecycle model exposes high-level states such as unloaded, loading, ready,
+generating, cancelling, and error without prescribing how a backend implements
+those transitions.
 
 Possible future engines:
 
@@ -174,7 +192,9 @@ Impersono Voice Engine Interface
 
 ## Completion Standard
 
-The application architecture must be able to add or replace engines without requiring the desktop UI to be rewritten.
+**Met.** The application now has a backend-independent boundary through which
+voice engines can be added or replaced without requiring the future desktop UI
+to depend directly on a specific inference implementation.
 
 ---
 
