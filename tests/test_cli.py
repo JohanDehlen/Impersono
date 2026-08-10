@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import impersonic.__main__ as cli
+import impersono.__main__ as cli
 
 
 def test_default_command_preserves_existing_identity_output(
@@ -15,7 +15,7 @@ def test_default_command_preserves_existing_identity_output(
 
     output = capsys.readouterr().out
     assert result == 0
-    assert "Impersonic 0.1.0-dev" in output
+    assert "Impersono 0.1.0-dev" in output
     assert "Professional Local AI Voice Creation" in output
     assert "Python: 3.12.10" in output
     assert r"Executable: C:\Test\python.exe" in output

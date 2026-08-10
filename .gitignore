@@ -30,7 +30,7 @@ dist/
 Thumbs.db
 desktop.ini
 
-# Impersonic generated data
+# Impersono generated data
 output/*
 !output/.gitkeep
 

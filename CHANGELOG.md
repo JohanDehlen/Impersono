@@ -1,12 +1,20 @@
-# Impersonic Changelog
+# Impersono Changelog
 
-All significant changes to Impersonic will be documented in this file.
+All significant changes to Impersono will be documented in this file.
 
-Impersonic uses milestone-based development during the pre-release phase. Version numbers will be introduced as the application approaches public testing and release.
+Impersono uses milestone-based development during the pre-release phase. Version numbers will be introduced as the application approaches public testing and release.
 
 ---
 
 ## Unreleased
+
+### Product Rename
+
+- Renamed the product from **Impersonic** to **Impersono**.
+- Renamed the Python package from `impersonic` to `impersono`.
+- Updated the development CLI from `python -m impersonic` to `python -m impersono`.
+- Updated package metadata, imports, tests, documentation, and project-development guidance to the new brand.
+- The GitHub repository and local project directory are renamed separately after this code migration is validated.
 
 ### Development Workflow
 

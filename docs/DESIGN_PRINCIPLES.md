@@ -1,18 +1,18 @@
-# Impersonic Design Principles
+# Impersono Design Principles
 
 ## Purpose
 
-This document defines the architectural, privacy, quality, and product principles that guide development of Impersonic.
+This document defines the architectural, privacy, quality, and product principles that guide development of Impersono.
 
 These principles are intended to remain stable even as implementation details, supported models, frameworks, and hardware change.
 
 ---
 
-## 1. Impersonic Is Its Own Product
+## 1. Impersono Is Its Own Product
 
-Impersonic is not a renamed VibeVoice interface.
+Impersono is not a renamed VibeVoice interface.
 
-VibeVoice may be used as an early inference reference and quality benchmark, but Impersonic must develop:
+VibeVoice may be used as an early inference reference and quality benchmark, but Impersono must develop:
 
 - its own architecture
 - its own user interface
@@ -25,7 +25,7 @@ VibeVoice may be used as an early inference reference and quality benchmark, but
 
 Model engines are replaceable components.
 
-Impersonic is the product.
+Impersono is the product.
 
 ---
 
@@ -76,21 +76,21 @@ Cloud mode must never be silently activated.
 
 ## 4. Engine Independent
 
-Impersonic must not permanently depend on one speech model.
+Impersono must not permanently depend on one speech model.
 
 All inference engines should eventually implement a common interface.
 
 Conceptually:
 
 ```text
-Impersonic
+Impersono
     |
     +-- Voice Engine Interface
             |
             +-- VibeVoice Backend
             +-- Qwen TTS Backend
             +-- Future Engine
-            `-- Future Impersonic Engine
+            `-- Future Impersono Engine
 ```
 
 The UI should not need to know the internal details of each engine.
@@ -99,7 +99,7 @@ The UI should not need to know the internal details of each engine.
 
 ## 5. Quality Before Feature Count
 
-Impersonic should not compete by having the largest number of features.
+Impersono should not compete by having the largest number of features.
 
 A smaller set of excellent capabilities is preferred over a larger set of unreliable ones.
 
@@ -122,7 +122,7 @@ It is complete when it is predictable, tested, understandable, and documented.
 
 VibeVoice-class output quality is the initial benchmark.
 
-Impersonic should maintain fixed benchmark samples for:
+Impersono should maintain fixed benchmark samples for:
 
 - voice similarity
 - intelligibility
@@ -153,7 +153,7 @@ Desktop UI
 Application Services
     |
     v
-Impersonic Core
+Impersono Core
     |
     v
 Voice Engine Interface
@@ -177,7 +177,7 @@ without duplicating core logic.
 
 ## 8. Hardware Awareness
 
-Impersonic must understand the machine it is running on.
+Impersono must understand the machine it is running on.
 
 Hardware detection should eventually include:
 
@@ -193,7 +193,7 @@ Hardware detection should eventually include:
 
 The user should not need to understand CUDA, ROCm, DirectML, model precision, or tensor formats simply to generate speech.
 
-Impersonic should translate technical hardware information into practical guidance.
+Impersono should translate technical hardware information into practical guidance.
 
 Example:
 
@@ -212,14 +212,14 @@ This model requires more GPU memory than your computer provides.
 You can:
 - choose a smaller local model
 - generate using CPU
-- use Impersonic Cloud
+- use Impersono Cloud
 ```
 
 ---
 
 ## 9. No Unnecessary Hardware Lock-In
 
-NVIDIA CUDA may be the most practical initial acceleration target, but Impersonic should not be architected as an NVIDIA-only product.
+NVIDIA CUDA may be the most practical initial acceleration target, but Impersono should not be architected as an NVIDIA-only product.
 
 Where technically practical, future support should be evaluated for:
 
@@ -237,7 +237,7 @@ Hardware support must be based on stability and quality rather than marketing cl
 
 Voice cloning technology can be misused.
 
-Impersonic should be designed for legitimate creative and professional use.
+Impersono should be designed for legitimate creative and professional use.
 
 Future production versions should include appropriate consent and disclosure mechanisms.
 
@@ -325,7 +325,7 @@ Advanced controls should not overwhelm the basic workflow.
 
 ## 14. Voice Library as a Core Concept
 
-Voices should become reusable assets inside Impersonic.
+Voices should become reusable assets inside Impersono.
 
 A voice entry may eventually contain:
 
@@ -349,7 +349,7 @@ The voice library must remain independent from any single model engine where pos
 
 ## 15. Projects Should Be Portable
 
-Impersonic projects should store workflow state rather than hide it inside an opaque database.
+Impersono projects should store workflow state rather than hide it inside an opaque database.
 
 A future project may include:
 
@@ -366,7 +366,7 @@ Project formats should support backward compatibility as the application evolves
 
 ## 16. No Silent Network Activity
 
-Impersonic should not upload voice data, text, projects, or generated audio without explicit product behavior that requires it.
+Impersono should not upload voice data, text, projects, or generated audio without explicit product behavior that requires it.
 
 Network activity should have a clear purpose, such as:
 
@@ -400,7 +400,7 @@ Large dependencies should not be introduced merely for convenience.
 
 ## 18. Commercial Readiness
 
-Impersonic should be designed for eventual commercial distribution.
+Impersono should be designed for eventual commercial distribution.
 
 Development decisions should consider:
 
@@ -507,7 +507,7 @@ Implementation choices should not optimize only for the next demo.
 
 Ask:
 
-> Will this architecture still make sense when Impersonic has multiple engines, cloud rendering, web access, professional projects, and thousands of users?
+> Will this architecture still make sense when Impersono has multiple engines, cloud rendering, web access, professional projects, and thousands of users?
 
 Avoid premature complexity, but preserve clean boundaries that allow growth.
 

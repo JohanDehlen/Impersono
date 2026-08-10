@@ -57,7 +57,7 @@ def assess_vibevoice_1_5b(info: HardwareInfo) -> ModelCompatibility:
         gpu_status = CompatibilityStatus.CANDIDATE
         gpu_reason = (
             "NVIDIA GPU and driver tooling detected. CUDA is a candidate, but "
-            "the Impersonic inference runtime must still verify model and VRAM "
+            "the Impersono inference runtime must still verify model and VRAM "
             "compatibility."
         )
     elif info.gpus:
