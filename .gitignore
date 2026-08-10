@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Build output
+build/
+dist/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Impersonic generated data
+output/*
+!output/.gitkeep
+
+# Local voice data
+voices/*
+!voices/.gitkeep
+
+# Model files
+models/
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+
+# Hugging Face cache
+.cache/
+huggingface/
+
+# Logs
+*.log
+
+# Secrets / environment files
+.env
+.env.*
+*.key
+*.pem
+
+# Temporary files
+*.tmp
+*.temp
+~$*
