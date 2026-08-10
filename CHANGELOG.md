@@ -8,6 +8,15 @@ Impersonic uses milestone-based development during the pre-release phase. Versio
 
 ## Unreleased
 
+### Development Workflow
+
+- Added project-specific `AGENTS.md`.
+- Established GitHub as the shared inspection/history source for pushed code.
+- Established the local Windows working tree as the runtime source for unpushed changes.
+- Adopted controlled PowerShell update scripts for meaningful multi-file guided changes where they reduce manual copy/paste.
+- Confirmed that commits and pushes should occur at useful checkpoints rather than after every file modification.
+- Established explicit local testing and user approval before merging machine-dependent changes.
+
 ### Milestone 0.1 — Project Foundation
 
 #### Added
@@ -31,6 +40,11 @@ Impersonic uses milestone-based development during the pre-release phase. Versio
 - Added project README.
 - Added design principles.
 - Added development roadmap.
+- Added initial Python package and executable module entry point.
+- Added initial package identity test.
+- Verified `python -m impersonic`.
+- Verified the initial automated test suite.
+- Created and pushed the first known-good Git milestone.
 
 #### Architecture
 
@@ -69,13 +83,16 @@ Established that future cloud processing must:
 Established the following development rules:
 
 - Work in small, testable milestones.
+- Inspect existing implementation before modifying it.
 - Complete and test a milestone before significantly expanding scope.
 - Keep UI code separate from inference logic.
 - Avoid unnecessary dependencies.
 - Preserve known-good working states.
 - Document important architectural decisions.
-- Provide complete replacement files during guided development rather than partial line edits.
-- Commit and push to GitHub at meaningful milestones rather than after every individual file change.
+- Prefer controlled local update scripts over repeated manual copy/paste for meaningful multi-file changes.
+- Commit and push to GitHub at meaningful checkpoints rather than after every individual file change.
+- Review pushed results when exact shared state matters.
+- Require local testing and explicit approval before merging machine-dependent changes.
 
 ---
 

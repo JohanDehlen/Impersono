@@ -18,7 +18,7 @@ Impersonic is a completely separate project and product with its own architectur
 
 Current milestone:
 
-**Milestone 0.1 — Project Foundation**
+**Milestone 0.2 — Hardware Discovery**
 
 Impersonic is not yet ready for production use.
 
@@ -77,13 +77,230 @@ The initial desktop workflow will evolve toward:
 
 ```text
 Import or create a voice
-        ↓
+        |
+        v
 Add text
-        ↓
+        |
+        v
 Choose generation settings
-        ↓
+        |
+        v
 Generate locally
-        ↓
+        |
+        v
 Preview audio
-        ↓
+        |
+        v
 Save or export
+```
+
+If local hardware is unsuitable:
+
+```text
+Generate
+   |
+   v
+Local hardware check
+   |
+   v
+Local generation available?
+   |-- Yes -> Generate privately on this computer
+   `-- No  -> Offer optional cloud generation
+```
+
+---
+
+## Planned Architecture
+
+```text
+Impersonic
+|
++-- Desktop Application
+|       |
+|       v
++-- Impersonic Core
+|   +-- Inference
+|   +-- Audio
+|   +-- Hardware Detection
+|   +-- Voice Management
+|   `-- Project Management
+|
++-- Voice Engine Interface
+|   +-- VibeVoice-compatible backend
+|   `-- Future voice engines
+|
+`-- Optional Future Services
+    +-- Impersonic Cloud
+    +-- Web Application
+    `-- API
+```
+
+The desktop user interface must remain separate from the inference engine so that the same core technology can later support desktop, cloud, and web environments.
+
+---
+
+## Planned Development Stages
+
+### Foundation
+
+- Project structure
+- Design principles
+- Roadmap
+- Development standards
+- Basic application entry point
+
+### Hardware Discovery
+
+- Detect the local computer
+- Detect CPU, RAM, GPU and VRAM where practical
+- Detect supported acceleration
+- Translate technical information into practical model guidance
+
+### Inference Prototype
+
+- Load a supported local voice model
+- Load a reference voice
+- Accept text input
+- Generate audio
+- Save WAV output
+- Establish repeatable quality benchmarks
+
+### Desktop Application
+
+- Professional Windows interface
+- Voice selector
+- Text editor
+- Generation controls
+- Audio preview
+- Export workflow
+
+### Voice Library
+
+- Import reference recordings
+- Name and organize voices
+- Store voice metadata
+- Preview saved voices
+
+### Privacy and Execution Modes
+
+- Local generation
+- Clear local privacy status
+- Optional cloud generation
+- Explicit cloud-processing disclosure
+
+### Future Platform
+
+- Cloud rendering
+- Web application
+- Accounts and licensing
+- Usage-based cloud credits
+- Commercial deployment
+- Optional API
+
+---
+
+## Development Principles
+
+- Build one reliable milestone at a time.
+- Do not modify the sealed VibeVoice Gold Master.
+- Do not depend on the existing VibeVoice Gradio interface.
+- Keep inference logic independent from UI code.
+- Prefer clear architecture over quick hacks.
+- Keep dependencies intentional and documented.
+- Test features before expanding them.
+- Treat privacy as a product feature, not a marketing afterthought.
+- Maintain a clean and meaningful Git history.
+- Commit and push at meaningful checkpoints rather than after every minor edit.
+- Inspect the actual repository before changing existing implementation.
+- Prefer controlled local update scripts over repeated manual copy/paste for meaningful multi-file changes.
+
+---
+
+## Development Environment
+
+Initial development environment:
+
+- Windows 11
+- Python 3.12
+- Visual Studio Code
+- Git
+- Local virtual environment
+
+Project directory:
+
+```text
+C:\Projects\Impersonic
+```
+
+Run the package:
+
+```powershell
+python -m impersonic
+```
+
+Run tests:
+
+```powershell
+python -m pytest -q
+```
+
+---
+
+## Repository Structure
+
+```text
+Impersonic/
++-- assets/
++-- docs/
+|   +-- DESIGN_PRINCIPLES.md
+|   `-- ROADMAP.md
++-- output/
++-- src/
+|   `-- impersonic/
+|       +-- core/
+|       |   +-- audio/
+|       |   +-- hardware/
+|       |   `-- inference/
+|       +-- projects/
+|       +-- ui/
+|       `-- voices/
++-- tests/
++-- voices/
++-- .gitignore
++-- AGENTS.md
++-- CHANGELOG.md
++-- pyproject.toml
+`-- Readme.md
+```
+
+---
+
+## Privacy Positioning
+
+The core privacy message of Impersonic is:
+
+> **Your voices stay on your computer.**
+
+When local mode is used, reference recordings, generated speech, and project data should remain local.
+
+If optional cloud processing is introduced, the application must clearly distinguish between:
+
+**Local Mode**
+
+Voice processing remains on the user's computer.
+
+and:
+
+**Cloud Mode**
+
+Selected voice data and generation requests are intentionally sent for remote processing.
+
+---
+
+## Name and Brand
+
+**Impersonic**
+
+**Professional Local AI Voice Creation**
+
+Impersonic is being developed as an independent software product and brand.
