@@ -1,9 +1,6 @@
 """VibeVoice backend boundary for Impersono.
 
-This first integration slice deliberately contains no direct VibeVoice, PyTorch,
-Transformers, or Gradio imports. Heavy runtime loading is isolated behind
-``VibeVoiceRuntimeLoader`` so the core application remains importable without
-the VibeVoice stack installed.
+Heavy VibeVoice/PyTorch imports remain isolated behind the runtime loader.
 """
 
 from __future__ import annotations
@@ -14,7 +11,7 @@ from pathlib import Path
 from typing import Protocol
 
 from ..engine import ProgressCallback, VoiceEngine
-from ..errors import EngineNotReadyError, ModelLoadError
+from ..errors import EngineError, EngineNotReadyError, ModelLoadError
 from ..models import (
     EngineCapabilities,
     EngineIdentity,
@@ -28,8 +25,6 @@ from ..models import (
 
 @dataclass(frozen=True, slots=True)
 class VibeVoiceConfig:
-    """Configuration needed by the first VibeVoice-compatible backend."""
-
     model_id: str = "vibevoice/VibeVoice-1.5B"
     device: str = "cpu"
     inference_steps: int = 10
@@ -46,8 +41,6 @@ class VibeVoiceConfig:
 
 @dataclass(frozen=True, slots=True)
 class VibeVoiceDependencyStatus:
-    """Whether the optional VibeVoice runtime can be imported."""
-
     vibevoice: bool
     torch: bool
 
@@ -66,8 +59,6 @@ class VibeVoiceDependencyStatus:
 
 
 def detect_vibevoice_dependencies() -> VibeVoiceDependencyStatus:
-    """Probe optional runtime packages without importing them."""
-
     return VibeVoiceDependencyStatus(
         vibevoice=find_spec("vibevoice") is not None,
         torch=find_spec("torch") is not None,
@@ -75,28 +66,28 @@ def detect_vibevoice_dependencies() -> VibeVoiceDependencyStatus:
 
 
 class VibeVoiceRuntime(Protocol):
-    """Opaque loaded runtime owned by the concrete VibeVoice adapter."""
-
     model_id: str
 
+    def generate_to_file(
+        self,
+        *,
+        text: str,
+        voice_reference: Path | None,
+        output_path: Path,
+        cfg_scale: float,
+    ) -> float | None:
+        ...
+
     def close(self) -> None:
-        """Release model/runtime resources."""
+        ...
 
 
 class VibeVoiceRuntimeLoader(Protocol):
-    """Factory boundary for heavy VibeVoice model loading.
-
-    Milestone 0.4 Slice 1 defines this boundary only. A later slice will wire it
-    to the inspected VibeVoice processor/model implementation.
-    """
-
     def load(self, config: VibeVoiceConfig) -> VibeVoiceRuntime:
-        """Load and return one configured VibeVoice runtime."""
+        ...
 
 
 class VibeVoiceEngine(VoiceEngine):
-    """Impersono engine adapter boundary for VibeVoice-compatible runtimes."""
-
     def __init__(
         self,
         config: VibeVoiceConfig | None = None,
@@ -167,15 +158,14 @@ class VibeVoiceEngine(VoiceEngine):
         if not dependencies.available:
             missing = ", ".join(dependencies.missing)
             self._state = EngineState.ERROR
-            self._message = f"Missing optional VibeVoice runtime dependencies: {missing}."
+            self._message = (
+                f"Missing optional VibeVoice runtime dependencies: {missing}."
+            )
             raise ModelLoadError(self._message)
 
         if self._runtime_loader is None:
             self._state = EngineState.ERROR
-            self._message = (
-                "VibeVoice runtime loading has not been wired yet. "
-                "Milestone 0.4 currently provides the adapter boundary only."
-            )
+            self._message = "VibeVoice runtime loader is not configured."
             raise ModelLoadError(self._message)
 
         self._state = EngineState.LOADING
@@ -206,10 +196,8 @@ class VibeVoiceEngine(VoiceEngine):
     def unload_model(self) -> None:
         runtime = self._runtime
         self._runtime = None
-
         if runtime is not None:
             runtime.close()
-
         self._state = EngineState.UNLOADED
         self._message = None
 
@@ -223,13 +211,44 @@ class VibeVoiceEngine(VoiceEngine):
                 "VibeVoice generation requires a successfully loaded model."
             )
 
-        raise NotImplementedError(
-            "VibeVoice audio generation is intentionally deferred to a later "
-            "Milestone 0.4 slice."
+        text = request.text.strip()
+        if not text:
+            raise ValueError("VibeVoice generation text must not be empty.")
+
+        output_path = request.output_path or Path("output") / "vibevoice_generated.wav"
+
+        cfg_scale_raw = request.options.get("cfg_scale", self._config.cfg_scale)
+        try:
+            cfg_scale = float(cfg_scale_raw)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("VibeVoice cfg_scale must be numeric.") from exc
+        if cfg_scale <= 0:
+            raise ValueError("VibeVoice cfg_scale must be greater than 0.")
+
+        self._state = EngineState.GENERATING
+        self._message = "Generating speech with VibeVoice."
+
+        try:
+            duration = self._runtime.generate_to_file(
+                text=text,
+                voice_reference=request.voice_reference,
+                output_path=output_path,
+                cfg_scale=cfg_scale,
+            )
+        except Exception as exc:
+            self._state = EngineState.ERROR
+            self._message = f"VibeVoice generation failed: {exc}"
+            raise EngineError(self._message) from exc
+
+        self._state = EngineState.READY
+        self._message = None
+
+        return GenerationResult(
+            audio_path=output_path,
+            engine_id=self.identity.engine_id,
+            model_id=self._runtime.model_id,
+            duration_seconds=duration,
         )
 
     def cancel(self) -> None:
-        # The inspected reference implementation implements cancellation through
-        # its streaming/Gradio path. We do not advertise cancellation until the
-        # backend has a verified non-UI implementation.
         return None
