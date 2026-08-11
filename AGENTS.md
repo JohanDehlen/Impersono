@@ -28,7 +28,7 @@ It is not a renamed VibeVoice demo and must maintain its own architecture, UI, p
 
 Current milestone:
 
-**Milestone 0.4 — First VibeVoice-Compatible Inference Prototype**
+**Milestone 0.5 — Quality Benchmark Suite**
 
 The current codebase is intentionally small.
 
@@ -415,7 +415,7 @@ Current automated baseline:
 python -m pytest -q
 ```
 
-passes the package, hardware, compatibility, and CLI tests.
+passes the package, hardware, compatibility, inference-backend, runtime, generation, and WAV-normalization tests.
 
 Hardware discovery commands:
 
@@ -428,9 +428,27 @@ Milestone 0.2 established the hardware discovery and compatibility layers withou
 
 Milestone 0.3 established the backend-independent voice engine contract, engine registry, common inference models and errors, progress/cancellation boundary, and standardized engine lifecycle status.
 
-The current automated baseline is **24 passing tests** on the primary Windows development machine.
+Milestone 0.4 established the first real VibeVoice-compatible backend prototype. VibeVoice 1.5B is isolated behind the Impersono engine boundary, real CPU model loading and speech generation were locally validated, reference-voice conditioning works using the original reference file, and Impersono applies configurable fixed-level WAV normalization after generation.
 
-The next milestone is **Milestone 0.4 — First VibeVoice-Compatible Inference Prototype**. Preserve the engine boundary: inspect the known-good VibeVoice implementation first, isolate VibeVoice-specific behavior behind an Impersono engine implementation, and do not make the rest of the application depend directly on VibeVoice or its Gradio interface.
+The current automated baseline is **49 passing tests** on the primary Windows development machine.
+
+Known locally validated VibeVoice prototype settings are:
+
+```text
+Model: VibeVoice 1.5B
+Device: CPU
+Precision: float32
+Attention: SDPA
+DDPM inference steps: 10
+CFG scale: 1.3
+Reference handling: original reference file passed directly to VibeVoiceProcessor
+Output: 24 kHz WAV
+Output normalization: -16 dBFS RMS target, -1 dBFS peak ceiling
+```
+
+Local side-by-side listening confirmed that the final normalized conditioned output compared very well with the source reference voice.
+
+The next milestone is **Milestone 0.5 — Quality Benchmark Suite**. Preserve the validated Milestone 0.4 path while adding repeatable measurements for voice similarity, intelligibility, pronunciation, pacing, prosody, generation time, memory use, and output stability. Do not replace qualitative observations with invented metrics; benchmark claims must come from measured runs and controlled assets.
 
 ---
 

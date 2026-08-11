@@ -25,6 +25,48 @@ Impersono uses milestone-based development during the pre-release phase. Version
 - Confirmed that commits and pushes should occur at useful checkpoints rather than after every file modification.
 - Established explicit local testing and user approval before merging machine-dependent changes.
 
+### Milestone 0.4 — First VibeVoice-Compatible Inference Prototype
+
+#### Added
+
+- Added the first concrete `VibeVoiceEngine` backend behind the engine-independent Impersono inference interface.
+- Added optional VibeVoice/PyTorch dependency detection without making the heavy runtime a core Impersono import requirement.
+- Added a native VibeVoice runtime loader for the processor and `VibeVoiceForConditionalGenerationInference`.
+- Added CPU `float32` + SDPA model loading and a future CUDA BF16/Flash-Attention-first path with SDPA fallback.
+- Added real single-speaker VibeVoice generation through `GenerationRequest`.
+- Added optional reference-voice conditioning using the original reference file.
+- Added WAV output saving and generated-duration reporting.
+- Added engine-independent 16-bit PCM WAV level inspection and RMS normalization.
+- Added configurable VibeVoice output normalization with a default target of -16 dBFS RMS and a -1 dBFS peak ceiling.
+- Expanded automated coverage to **49 passing tests**.
+
+#### Design Decisions
+
+- Kept all VibeVoice, PyTorch, processor, and model objects behind the backend/runtime boundary established in Milestone 0.3.
+- Did not depend on or copy the VibeVoice Gradio application.
+- Kept the heavy VibeVoice runtime optional rather than adding it to the lightweight Impersono development environment.
+- Preserved the original reference-audio file for conditioning because local testing showed that external mono/24 kHz preprocessing significantly reduced voice fidelity.
+- Kept CFG scale `1.3` and 10 DDPM inference steps as the validated prototype defaults.
+- Added fixed output-level normalization rather than matching generated loudness to arbitrary reference-recording loudness.
+- Did not claim cancellation or streaming support because those behaviors were not verified outside the reference UI path.
+
+#### Local Validation
+
+On the primary Windows development machine:
+
+- VibeVoice 1.5B loaded successfully through the Impersono native runtime adapter from the existing local model cache.
+- CPU loading used `float32` precision and SDPA attention.
+- Real local speech generation succeeded.
+- Real reference-voice conditioning succeeded.
+- Direct reference-file conditioning produced the best voice fidelity in controlled local comparison.
+- A generated conditioned sample initially measured approximately 8.57 dB lower in RMS than the comparison reference.
+- Impersono's fixed output normalization brought the listening level into an appropriate range while preserving the voice character.
+- Final side-by-side listening comparison found the normalized generated voice to compare very well with the source reference voice.
+
+Formal repeatable quality, speed, and memory benchmarking remains the responsibility of Milestone 0.5.
+
+---
+
 ### Milestone 0.3 — Voice Engine Interface
 
 #### Added

@@ -200,31 +200,70 @@ to depend directly on a specific inference implementation.
 
 # Milestone 0.4 — First VibeVoice-Compatible Inference Prototype
 
+## Status
+
+**Complete**
+
 ## Goal
 
 Generate speech from Impersono without using the VibeVoice Gradio interface.
 
-## Planned Scope
+## Completed Scope
 
-- Study the known-good VibeVoice inference path
-- Identify required model components
-- Create an Impersono backend adapter
-- Load VibeVoice 1.5B
-- Load a known reference voice
-- Accept text input
-- Generate audio
-- Save WAV output
-- Record generation time
-- Record memory use where practical
-- Compare output against the reference VibeVoice implementation
+- [x] Study the known-good VibeVoice inference path
+- [x] Identify the processor/model components required for VibeVoice 1.5B inference
+- [x] Create a concrete `VibeVoiceEngine` behind the engine-independent Impersono interface
+- [x] Keep VibeVoice, PyTorch, and model objects isolated behind an optional runtime boundary
+- [x] Add lazy optional-runtime dependency detection
+- [x] Implement the native VibeVoice processor/model loader
+- [x] Validate the CPU `float32` + SDPA model-loading path on the primary Windows development machine
+- [x] Preserve a CUDA BF16/Flash-Attention-first path with SDPA fallback for future compatible machines
+- [x] Implement real single-speaker text generation without the VibeVoice Gradio interface
+- [x] Support optional reference-voice conditioning through `GenerationRequest.voice_reference`
+- [x] Save generated WAV output through the VibeVoice processor
+- [x] Report generated-audio duration
+- [x] Add Impersono-owned fixed-level WAV normalization
+- [x] Add automated tests for backend behavior, runtime loading, generation, and WAV normalization
+- [x] Validate real VibeVoice 1.5B model loading from the existing local model cache
+- [x] Validate real CPU speech generation
+- [x] Validate real reference-voice conditioning by local listening comparison
+- [x] Validate final normalized output by side-by-side listening comparison with the reference voice
+
+## Validated Prototype Configuration
+
+Primary locally validated configuration:
+
+```text
+Model: VibeVoice 1.5B
+Device: CPU
+Precision: float32
+Attention: SDPA
+DDPM inference steps: 10
+CFG scale: 1.3
+Reference handling: original reference file passed directly to VibeVoiceProcessor
+Output: 24 kHz WAV
+Output normalization: -16 dBFS RMS target, -1 dBFS peak ceiling
+```
+
+The direct original reference file produced substantially better voice fidelity than an externally resampled/mono 24 kHz copy during local comparison. Impersono therefore leaves reference-audio preprocessing to the VibeVoice processor for this prototype.
+
+The first unnormalized conditioned output measured about 8.57 dB lower in RMS level than the comparison reference. Impersono now applies a fixed, configurable output-level normalization step rather than matching every generation to the loudness of its reference recording.
+
+## Validation Notes
+
+The real VibeVoice 1.5B model successfully loaded through the Impersono runtime adapter on the primary Windows development machine.
+
+Real speech generation and reference-voice conditioning both succeeded. Local listening confirmed that the final level-normalized conditioned output compared very well with the source reference voice.
+
+The automated suite passes with **49 tests**.
+
+Runtime memory usage was not formally benchmarked in this milestone. Repeatable quality, speed, and memory measurement belongs in Milestone 0.5 and later performance work rather than being guessed from a single prototype run.
 
 ## Initial Quality Requirement
 
-The Impersono inference result should be comparable in quality to the known-good VibeVoice reference generation.
+**Met for the prototype.** The result was not accepted merely because it produced audio; the locally generated conditioned speech was reviewed for voice similarity and output level, and the final result compared very well with the reference voice.
 
-The purpose is not merely to produce audio.
-
-The purpose is to preserve quality.
+This is a prototype-quality validation, not yet a formal benchmark suite.
 
 ---
 
