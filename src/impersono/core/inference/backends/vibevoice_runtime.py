@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import gc
+import random
 from dataclasses import dataclass
 from importlib import import_module
 from pathlib import Path
@@ -34,6 +35,7 @@ class NativeVibeVoiceRuntime:
         voice_reference: Path | None,
         output_path: Path,
         cfg_scale: float,
+        seed: int | None = None,
     ) -> float | None:
         if self._closed or self.processor is None or self.model is None:
             raise RuntimeError("VibeVoice runtime is closed.")
@@ -41,6 +43,26 @@ class NativeVibeVoiceRuntime:
         torch = self.torch_module
         if torch is None:
             raise RuntimeError("VibeVoice torch runtime is unavailable.")
+
+        if seed is not None:
+            random.seed(seed)
+            try:
+                numpy = import_module("numpy")
+            except ImportError:
+                numpy = None
+            if numpy is not None:
+                numpy.random.seed(seed)
+            torch.manual_seed(seed)
+            cuda = getattr(torch, "cuda", None)
+            if cuda is not None:
+                is_available = getattr(cuda, "is_available", None)
+                manual_seed_all = getattr(cuda, "manual_seed_all", None)
+                if (
+                    callable(is_available)
+                    and is_available()
+                    and callable(manual_seed_all)
+                ):
+                    manual_seed_all(seed)
 
         formatted_text = text.replace("’", "'").strip()
         if not formatted_text.lower().startswith("speaker "):

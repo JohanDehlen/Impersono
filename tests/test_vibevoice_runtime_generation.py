@@ -42,10 +42,28 @@ class FakeGenerationModel:
         return SimpleNamespace(speech_outputs=[self.speech])
 
 
+class FakeCuda:
+    def __init__(self):
+        self.seed_calls = []
+
+    def is_available(self):
+        return False
+
+    def manual_seed_all(self, seed):
+        self.seed_calls.append(seed)
+
+
 class FakeTorch:
+    def __init__(self):
+        self.seed_calls = []
+        self.cuda = FakeCuda()
+
     @staticmethod
     def is_tensor(value):
         return isinstance(value, FakeTensor)
+
+    def manual_seed(self, seed):
+        self.seed_calls.append(seed)
 
 
 def make_runtime(processor=None, model=None):
@@ -122,3 +140,18 @@ def test_runtime_generation_rejects_missing_speech_output(tmp_path):
             output_path=tmp_path / "result.wav",
             cfg_scale=1.3,
         )
+
+def test_runtime_applies_explicit_torch_seed_before_generation(tmp_path):
+    processor = FakeProcessor()
+    model = FakeGenerationModel()
+    runtime = make_runtime(processor, model)
+
+    runtime.generate_to_file(
+        text="Hello.",
+        voice_reference=None,
+        output_path=tmp_path / "result.wav",
+        cfg_scale=1.3,
+        seed=12345,
+    )
+
+    assert runtime.torch_module.seed_calls == [12345]

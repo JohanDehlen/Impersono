@@ -19,7 +19,9 @@ class FakeRuntime:
     closed: bool = False
     generated: list[dict[str, object]] | None = None
 
-    def generate_to_file(self, *, text, voice_reference, output_path, cfg_scale):
+    def generate_to_file(
+        self, *, text, voice_reference, output_path, cfg_scale, seed=None
+    ):
         if self.generated is None:
             self.generated = []
         self.generated.append({
@@ -27,6 +29,7 @@ class FakeRuntime:
             "voice_reference": voice_reference,
             "output_path": output_path,
             "cfg_scale": cfg_scale,
+            "seed": seed,
         })
         return 2.5
 
@@ -219,3 +222,39 @@ def test_generate_normalizes_output_when_enabled(monkeypatch, tmp_path):
         output,
         {"target_rms_dbfs": -16.0, "peak_ceiling_dbfs": -1.0},
     )]
+
+def test_generate_passes_explicit_seed_to_runtime(monkeypatch):
+    available(monkeypatch)
+    loader = FakeLoader()
+    engine = VibeVoiceEngine(
+        VibeVoiceConfig(normalize_output=False),
+        runtime_loader=loader,
+    )
+    engine.load_model("vibevoice/VibeVoice-1.5B")
+
+    engine.generate(
+        GenerationRequest(
+            text="Hello",
+            options={"seed": 12345},
+        )
+    )
+
+    assert loader.runtime.generated[0]["seed"] == 12345
+
+
+@pytest.mark.parametrize("seed", [-1, True, "not-an-integer"])
+def test_generate_rejects_invalid_seed(monkeypatch, seed):
+    available(monkeypatch)
+    engine = VibeVoiceEngine(
+        VibeVoiceConfig(normalize_output=False),
+        runtime_loader=FakeLoader(),
+    )
+    engine.load_model("vibevoice/VibeVoice-1.5B")
+
+    with pytest.raises(ValueError, match="seed"):
+        engine.generate(
+            GenerationRequest(
+                text="Hello",
+                options={"seed": seed},
+            )
+        )

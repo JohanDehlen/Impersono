@@ -20,6 +20,7 @@ from .suite import BASELINE_ENGLISH_SUITE, BenchmarkSuite
 DEFAULT_VIBEVOICE_ROOT = Path(r"C:\AI\VibeVoice")
 DEFAULT_REFERENCE = DEFAULT_VIBEVOICE_ROOT / "demo" / "voices" / "en-Alice_woman.wav"
 DEFAULT_OUTPUT_ROOT = Path("output") / "benchmarks"
+DEFAULT_BENCHMARK_SEED = 12345
 DEFAULT_HF_CACHE = (
     Path.home()
     / ".cache"
@@ -89,6 +90,7 @@ def print_plan(
     model_path: Path,
     reference_voice: Path,
     output_dir: Path,
+    seed: int,
 ) -> None:
     print()
     print("# Impersono Local VibeVoice Benchmark Plan")
@@ -101,6 +103,7 @@ def print_plan(
     print("Device: CPU")
     print("Inference steps: 10")
     print("CFG scale: 1.3")
+    print(f"Seed: {seed}")
     print("Output normalization: -16 dBFS RMS / -1 dBFS peak ceiling")
     print("Network: forced offline")
     print()
@@ -118,6 +121,7 @@ def execute_local_vibevoice_benchmark(
     output_root: Path,
     vibevoice_root: Path = DEFAULT_VIBEVOICE_ROOT,
     run_id: str | None = None,
+    seed: int = DEFAULT_BENCHMARK_SEED,
 ):
     """Load VibeVoice once, run the selected cases, persist one run JSON."""
 
@@ -176,13 +180,14 @@ def execute_local_vibevoice_benchmark(
             run_id=run_id,
             model_id=str(model_path),
             output_dir=audio_output,
-            options={"cfg_scale": 1.3},
+            options={"cfg_scale": 1.3, "seed": seed},
             configuration={
                 "device": "cpu",
                 "precision": "float32",
                 "attention": "sdpa",
                 "inference_steps": 10,
                 "cfg_scale": 1.3,
+                "seed": seed,
                 "normalize_output": True,
                 "target_rms_dbfs": -16.0,
                 "peak_ceiling_dbfs": -1.0,
@@ -217,6 +222,12 @@ def build_parser() -> argparse.ArgumentParser:
         type=int,
         default=1,
         help="Number of baseline cases to select. Default: 1. Use 6 for the full suite.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=DEFAULT_BENCHMARK_SEED,
+        help="Generation seed for reproducible benchmark audio. Default: 12345.",
     )
     parser.add_argument(
         "--reference",
@@ -256,6 +267,7 @@ def main(argv: list[str] | None = None) -> int:
         model_path=model_path,
         reference_voice=args.reference,
         output_dir=args.output_root,
+        seed=args.seed,
     )
 
     if not args.run:
@@ -269,6 +281,7 @@ def main(argv: list[str] | None = None) -> int:
         reference_voice=args.reference,
         output_root=args.output_root,
         vibevoice_root=args.vibevoice_root,
+        seed=args.seed,
     )
 
     print()

@@ -81,6 +81,7 @@ class VibeVoiceRuntime(Protocol):
         voice_reference: Path | None,
         output_path: Path,
         cfg_scale: float,
+        seed: int | None = None,
     ) -> float | None:
         ...
 
@@ -231,16 +232,35 @@ class VibeVoiceEngine(VoiceEngine):
         if cfg_scale <= 0:
             raise ValueError("VibeVoice cfg_scale must be greater than 0.")
 
+        seed_raw = request.options.get("seed")
+        seed: int | None
+        if seed_raw is None:
+            seed = None
+        else:
+            if isinstance(seed_raw, bool):
+                raise ValueError("VibeVoice seed must be a non-negative integer.")
+            try:
+                seed = int(seed_raw)
+            except (TypeError, ValueError) as exc:
+                raise ValueError(
+                    "VibeVoice seed must be a non-negative integer."
+                ) from exc
+            if seed < 0:
+                raise ValueError("VibeVoice seed must be a non-negative integer.")
+
         self._state = EngineState.GENERATING
         self._message = "Generating speech with VibeVoice."
 
         try:
-            duration = self._runtime.generate_to_file(
-                text=text,
-                voice_reference=request.voice_reference,
-                output_path=output_path,
-                cfg_scale=cfg_scale,
-            )
+            generation_kwargs = {
+                "text": text,
+                "voice_reference": request.voice_reference,
+                "output_path": output_path,
+                "cfg_scale": cfg_scale,
+            }
+            if seed is not None:
+                generation_kwargs["seed"] = seed
+            duration = self._runtime.generate_to_file(**generation_kwargs)
         except Exception as exc:
             self._state = EngineState.ERROR
             self._message = f"VibeVoice generation failed: {exc}"
