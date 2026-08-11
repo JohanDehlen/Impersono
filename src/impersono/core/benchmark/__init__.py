@@ -2,6 +2,7 @@
 
 from .models import BenchmarkCase, BenchmarkMetrics, BenchmarkResult, BenchmarkStatus
 from .runner import run_benchmark_case
+from .suite import BASELINE_ENGLISH_SUITE, BenchmarkSuite
 from .serialization import (
     BENCHMARK_SCHEMA_VERSION,
     benchmark_result_from_dict,
@@ -16,6 +17,8 @@ __all__ = [
     "BenchmarkMetrics",
     "BenchmarkResult",
     "BenchmarkStatus",
+    "BenchmarkSuite",
+    "BASELINE_ENGLISH_SUITE",
     "benchmark_result_from_dict",
     "benchmark_result_to_dict",
     "load_benchmark_result",
