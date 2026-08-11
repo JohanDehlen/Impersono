@@ -1,0 +1,22 @@
+"""Benchmark models and persistence helpers for Impersono."""
+
+from .models import BenchmarkCase, BenchmarkMetrics, BenchmarkResult, BenchmarkStatus
+from .serialization import (
+    BENCHMARK_SCHEMA_VERSION,
+    benchmark_result_from_dict,
+    benchmark_result_to_dict,
+    load_benchmark_result,
+    save_benchmark_result,
+)
+
+__all__ = [
+    "BENCHMARK_SCHEMA_VERSION",
+    "BenchmarkCase",
+    "BenchmarkMetrics",
+    "BenchmarkResult",
+    "BenchmarkStatus",
+    "benchmark_result_from_dict",
+    "benchmark_result_to_dict",
+    "load_benchmark_result",
+    "save_benchmark_result",
+]
