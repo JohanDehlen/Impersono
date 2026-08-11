@@ -10,6 +10,7 @@ from importlib.util import find_spec
 from pathlib import Path
 from typing import Protocol
 
+from ...audio.wav_level import normalize_wav_rms
 from ..engine import ProgressCallback, VoiceEngine
 from ..errors import EngineError, EngineNotReadyError, ModelLoadError
 from ..models import (
@@ -29,6 +30,9 @@ class VibeVoiceConfig:
     device: str = "cpu"
     inference_steps: int = 10
     cfg_scale: float = 1.3
+    normalize_output: bool = True
+    target_rms_dbfs: float = -16.0
+    peak_ceiling_dbfs: float = -1.0
 
     def __post_init__(self) -> None:
         if self.device not in {"cpu", "cuda", "mps"}:
@@ -37,6 +41,8 @@ class VibeVoiceConfig:
             raise ValueError("VibeVoice inference_steps must be at least 1.")
         if self.cfg_scale <= 0:
             raise ValueError("VibeVoice cfg_scale must be greater than 0.")
+        if self.target_rms_dbfs >= self.peak_ceiling_dbfs:
+            raise ValueError("VibeVoice RMS target must remain below the peak ceiling.")
 
 
 @dataclass(frozen=True, slots=True)
@@ -239,6 +245,13 @@ class VibeVoiceEngine(VoiceEngine):
             self._state = EngineState.ERROR
             self._message = f"VibeVoice generation failed: {exc}"
             raise EngineError(self._message) from exc
+
+        if self._config.normalize_output:
+            normalize_wav_rms(
+                output_path,
+                target_rms_dbfs=self._config.target_rms_dbfs,
+                peak_ceiling_dbfs=self._config.peak_ceiling_dbfs,
+            )
 
         self._state = EngineState.READY
         self._message = None

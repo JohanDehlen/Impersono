@@ -103,7 +103,10 @@ def test_load_model_reports_missing_optional_dependencies(monkeypatch):
 def test_generate_calls_runtime_and_returns_generation_result(monkeypatch):
     available(monkeypatch)
     loader = FakeLoader()
-    engine = VibeVoiceEngine(runtime_loader=loader)
+    engine = VibeVoiceEngine(
+        VibeVoiceConfig(normalize_output=False),
+        runtime_loader=loader,
+    )
     engine.load_model("vibevoice/VibeVoice-1.5B")
     result = engine.generate(GenerationRequest(
         text="Hello from Impersono.",
@@ -122,7 +125,10 @@ def test_generate_calls_runtime_and_returns_generation_result(monkeypatch):
 def test_generate_uses_default_output_and_cfg_scale(monkeypatch):
     available(monkeypatch)
     loader = FakeLoader()
-    engine = VibeVoiceEngine(runtime_loader=loader)
+    engine = VibeVoiceEngine(
+        VibeVoiceConfig(normalize_output=False),
+        runtime_loader=loader,
+    )
     engine.load_model("vibevoice/VibeVoice-1.5B")
     result = engine.generate(GenerationRequest(text="Hello"))
     assert result.audio_path == Path("output") / "vibevoice_generated.wav"
@@ -153,3 +159,63 @@ def test_generate_rejects_empty_text(monkeypatch):
     engine.load_model("vibevoice/VibeVoice-1.5B")
     with pytest.raises(ValueError, match="must not be empty"):
         engine.generate(GenerationRequest(text="   "))
+
+
+
+def test_vibevoice_config_enables_fixed_output_normalization_by_default():
+    config = VibeVoiceConfig()
+
+    assert config.normalize_output is True
+    assert config.target_rms_dbfs == -16.0
+    assert config.peak_ceiling_dbfs == -1.0
+
+
+def test_generate_can_disable_output_normalization(monkeypatch, tmp_path):
+    available(monkeypatch)
+    loader = FakeLoader()
+    engine = VibeVoiceEngine(
+        VibeVoiceConfig(normalize_output=False),
+        runtime_loader=loader,
+    )
+
+    called = {"value": False}
+
+    def fake_normalize(path, **kwargs):
+        called["value"] = True
+
+    monkeypatch.setattr(
+        "impersono.core.inference.backends.vibevoice.normalize_wav_rms",
+        fake_normalize,
+    )
+
+    engine.load_model("vibevoice/VibeVoice-1.5B")
+    engine.generate(
+        GenerationRequest(
+            text="Hello",
+            output_path=tmp_path / "result.wav",
+        )
+    )
+
+    assert called["value"] is False
+
+
+def test_generate_normalizes_output_when_enabled(monkeypatch, tmp_path):
+    available(monkeypatch)
+    loader = FakeLoader()
+    engine = VibeVoiceEngine(runtime_loader=loader)
+    calls = []
+
+    def fake_normalize(path, **kwargs):
+        calls.append((path, kwargs))
+
+    monkeypatch.setattr(
+        "impersono.core.inference.backends.vibevoice.normalize_wav_rms",
+        fake_normalize,
+    )
+    engine.load_model("vibevoice/VibeVoice-1.5B")
+    output = tmp_path / "result.wav"
+    engine.generate(GenerationRequest(text="Hello", output_path=output))
+    assert calls == [(
+        output,
+        {"target_rms_dbfs": -16.0, "peak_ceiling_dbfs": -1.0},
+    )]
