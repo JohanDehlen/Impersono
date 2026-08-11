@@ -18,7 +18,7 @@ Impersono is a completely separate project and product with its own architecture
 
 Current milestone:
 
-**Milestone 0.4 — First VibeVoice-Compatible Inference Prototype**
+**Milestone 0.5 — Quality Benchmark Suite**
 
 Impersono is not yet ready for production use.
 
