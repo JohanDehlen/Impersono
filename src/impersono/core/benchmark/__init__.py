@@ -1,5 +1,6 @@
 """Benchmark models and persistence helpers for Impersono."""
 
+from .orchestrator import run_benchmark_suite
 from .models import BenchmarkCase, BenchmarkMetrics, BenchmarkResult, BenchmarkStatus
 from .runner import run_benchmark_case
 from .run_models import BenchmarkRun
@@ -38,4 +39,5 @@ __all__ = [
     "load_benchmark_result",
     "save_benchmark_result",
     "run_benchmark_case",
+    "run_benchmark_suite",
 ]
